@@ -22,7 +22,7 @@ import cl.awakelab.ejercicioindividual5modulo5.databinding.FragmentListBinding;
 public class FragmentList extends Fragment {
 
     private FragmentListBinding binding;
-    List<String> data = getData();
+    private List<String> data = getData();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,24 +67,25 @@ public class FragmentList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        
         binding = FragmentListBinding.inflate(getLayoutInflater());
         WordsAdapter adapter = new WordsAdapter();
         // Inflate the layout for this fragment
         adapter.setData(getData());
         binding.recyclerView.setAdapter(adapter);
-        initListener();
-        return binding.getRoot();
-
-    }
-
-    public void initListener() {
-        binding.floatingButton.setOnClickListener(v -> {
-            data.add("Palabra " + data.size());
-            binding.recyclerView.getAdapter().notifyItemInserted(data.size());
-            binding.recyclerView.smoothScrollToPosition(data.size());
+        binding.floatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Agregada data n° " + data.size(), Toast.LENGTH_SHORT).show();
+                data.add("Palabra " + data.size());
+                adapter.setData(data);
+                adapter.notifyItemInserted(data.size());
+                binding.recyclerView.smoothScrollToPosition(data.size());
+            }
         });
+        return binding.getRoot();
     }
+
+
 
     public List<String> getData() {
         List<String> data = new ArrayList<String>();

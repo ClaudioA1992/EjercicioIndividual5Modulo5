@@ -48,9 +48,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            int position  =   getAdapterPosition();
-            
-
+            int position = getAdapterPosition();
         }
 
         public void bindMostrarInformacion(String word) {
