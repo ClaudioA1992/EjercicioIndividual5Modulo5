@@ -21,6 +21,9 @@ import cl.awakelab.ejercicioindividual5modulo5.databinding.FragmentListBinding;
  */
 public class FragmentList extends Fragment {
 
+    private FragmentListBinding binding;
+    List<String> data = getData();
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,18 +68,22 @@ public class FragmentList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         
-        FragmentListBinding binding = FragmentListBinding.inflate(getLayoutInflater());
+        binding = FragmentListBinding.inflate(getLayoutInflater());
         WordsAdapter adapter = new WordsAdapter();
         // Inflate the layout for this fragment
         adapter.setData(getData());
         binding.recyclerView.setAdapter(adapter);
-        binding.floatingButton.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Agregada data n° " + (adapter.getData().size()), Toast.LENGTH_SHORT).show();
-            adapter.getData().add("Data n°" + (adapter.getData().size()));
-        });
-
+        initListener();
         return binding.getRoot();
 
+    }
+
+    public void initListener() {
+        binding.floatingButton.setOnClickListener(v -> {
+            data.add("Palabra " + data.size());
+            binding.recyclerView.getAdapter().notifyItemInserted(data.size());
+            binding.recyclerView.smoothScrollToPosition(data.size());
+        });
     }
 
     public List<String> getData() {
